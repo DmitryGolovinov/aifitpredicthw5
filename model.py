@@ -57,12 +57,7 @@ class Predictor:
     def predict(self, data: dict[str, Any]) -> dict[str, Any]:
         """Calculates risk probability and explanation for a single observation."""
         validated = self._validate_input(data)
-        frame = pd.DataFrame([validated], columns=self.feature_order)
-
-        if hasattr(self.model, "predict_proba"):
-            risk_probability = float(self.model.predict_proba(frame)[0][1])
-        else:
-            risk_probability = float(self.model.predict(frame)[0])
+        risk_probability = self._predict_probability_from_validated(validated)
 
         threshold = float(self.meta.get("threshold", 0.5))
         risk_label = (
@@ -78,6 +73,21 @@ class Predictor:
             "top_factors": self._build_top_factors(validated, top_n=3),
             "input_echo": validated,
         }
+
+    def predict_probability(self, data: dict[str, Any]) -> float:
+        """Returns only risk probability for a single observation."""
+        validated = self._validate_input(data)
+        return self._predict_probability_from_validated(validated)
+
+    def predict_batch(self, rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        """Runs predict() for a batch of observations."""
+        if not isinstance(rows, list) or not rows:
+            raise ValueError("Ожидался непустой список наблюдений.")
+        return [self.predict(row) for row in rows]
+
+    def validate_input(self, data: dict[str, Any]) -> dict[str, float | int]:
+        """Public helper to validate and normalize incoming payload."""
+        return self._validate_input(data)
 
     def _validate_input(self, data: dict[str, Any]) -> dict[str, float | int]:
         if not isinstance(data, dict):
@@ -182,3 +192,11 @@ class Predictor:
         scored_factors.sort(key=lambda x: x["impact_score"], reverse=True)
         return scored_factors[:top_n]
 
+    def _predict_probability_from_validated(
+        self,
+        validated: dict[str, float | int],
+    ) -> float:
+        frame = pd.DataFrame([validated], columns=self.feature_order)
+        if hasattr(self.model, "predict_proba"):
+            return float(self.model.predict_proba(frame)[0][1])
+        return float(self.model.predict(frame)[0])

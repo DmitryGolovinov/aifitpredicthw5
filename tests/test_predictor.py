@@ -32,6 +32,17 @@ class PredictorTests(unittest.TestCase):
         self.assertLessEqual(result["risk_probability"], 1.0)
         self.assertEqual(len(result["top_factors"]), 3)
 
+    def test_predict_probability_smoke(self) -> None:
+        probability = self.predictor.predict_probability(self.valid_payload)
+        self.assertGreaterEqual(probability, 0.0)
+        self.assertLessEqual(probability, 1.0)
+
+    def test_predict_batch(self) -> None:
+        rows = [self.valid_payload, dict(self.valid_payload, age=60)]
+        results = self.predictor.predict_batch(rows)
+        self.assertEqual(len(results), 2)
+        self.assertIn("risk_probability", results[0])
+
     def test_missing_feature_raises(self) -> None:
         payload = dict(self.valid_payload)
         payload.pop("chol")
