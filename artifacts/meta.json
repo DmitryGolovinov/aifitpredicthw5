@@ -1,0 +1,222 @@
+{
+  "model_name": "CardioRisk AI RandomForest",
+  "dataset": "UCI Heart Disease (Cleveland)",
+  "target_definition": "1 if num > 0 else 0",
+  "threshold": 0.5,
+  "feature_order": [
+    "age",
+    "sex",
+    "cp",
+    "trestbps",
+    "chol",
+    "fbs",
+    "restecg",
+    "thalach",
+    "exang",
+    "oldpeak",
+    "slope",
+    "ca",
+    "thal"
+  ],
+  "feature_labels": {
+    "age": "Возраст",
+    "sex": "Пол",
+    "cp": "Тип боли в груди",
+    "trestbps": "Давление в покое",
+    "chol": "Холестерин",
+    "fbs": "Сахар натощак > 120",
+    "restecg": "ЭКГ в покое",
+    "thalach": "Макс. пульс",
+    "exang": "Стенокардия при нагрузке",
+    "oldpeak": "Снижение ST",
+    "slope": "Наклон ST",
+    "ca": "Число крупных сосудов",
+    "thal": "Thalassemia"
+  },
+  "validation_rules": {
+    "age": {
+      "type": "float",
+      "min": 20,
+      "max": 90
+    },
+    "sex": {
+      "type": "int",
+      "allowed": [
+        0,
+        1
+      ]
+    },
+    "cp": {
+      "type": "int",
+      "allowed": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    "trestbps": {
+      "type": "float",
+      "min": 80,
+      "max": 250
+    },
+    "chol": {
+      "type": "float",
+      "min": 100,
+      "max": 650
+    },
+    "fbs": {
+      "type": "int",
+      "allowed": [
+        0,
+        1
+      ]
+    },
+    "restecg": {
+      "type": "int",
+      "allowed": [
+        0,
+        1,
+        2
+      ]
+    },
+    "thalach": {
+      "type": "float",
+      "min": 60,
+      "max": 230
+    },
+    "exang": {
+      "type": "int",
+      "allowed": [
+        0,
+        1
+      ]
+    },
+    "oldpeak": {
+      "type": "float",
+      "min": 0,
+      "max": 8
+    },
+    "slope": {
+      "type": "int",
+      "allowed": [
+        1,
+        2,
+        3
+      ]
+    },
+    "ca": {
+      "type": "float",
+      "min": 0,
+      "max": 4
+    },
+    "thal": {
+      "type": "int",
+      "allowed": [
+        3,
+        6,
+        7
+      ]
+    }
+  },
+  "medians": {
+    "age": 56.0,
+    "sex": 1.0,
+    "cp": 3.0,
+    "trestbps": 130.0,
+    "chol": 244.5,
+    "fbs": 0.0,
+    "restecg": 0.0,
+    "thalach": 153.5,
+    "exang": 0.0,
+    "oldpeak": 0.8,
+    "slope": 2.0,
+    "ca": 0.0,
+    "thal": 3.0
+  },
+  "ranges": {
+    "age": {
+      "min": 29.0,
+      "max": 77.0
+    },
+    "sex": {
+      "min": 0.0,
+      "max": 1.0
+    },
+    "cp": {
+      "min": 1.0,
+      "max": 4.0
+    },
+    "trestbps": {
+      "min": 94.0,
+      "max": 200.0
+    },
+    "chol": {
+      "min": 126.0,
+      "max": 564.0
+    },
+    "fbs": {
+      "min": 0.0,
+      "max": 1.0
+    },
+    "restecg": {
+      "min": 0.0,
+      "max": 2.0
+    },
+    "thalach": {
+      "min": 71.0,
+      "max": 202.0
+    },
+    "exang": {
+      "min": 0.0,
+      "max": 1.0
+    },
+    "oldpeak": {
+      "min": 0.0,
+      "max": 6.2
+    },
+    "slope": {
+      "min": 1.0,
+      "max": 3.0
+    },
+    "ca": {
+      "min": 0.0,
+      "max": 3.0
+    },
+    "thal": {
+      "min": 3.0,
+      "max": 7.0
+    }
+  },
+  "feature_importance": {
+    "thal": 0.18713987021931067,
+    "cp": 0.14679845500212035,
+    "ca": 0.12816905876045265,
+    "thalach": 0.10685985810953863,
+    "oldpeak": 0.08822731966689755,
+    "age": 0.06990529151924421,
+    "exang": 0.06826243410375966,
+    "chol": 0.05581994861621634,
+    "slope": 0.04597526953796299,
+    "trestbps": 0.04304513989145203,
+    "sex": 0.04115906677664248,
+    "restecg": 0.016068003749585832,
+    "fbs": 0.002570284046816447
+  },
+  "metrics": {
+    "accuracy": 0.8852459016393442,
+    "roc_auc": 0.9621212121212122,
+    "precision_1": 0.8387096774193549,
+    "recall_1": 0.9285714285714286,
+    "f1_1": 0.8813559322033898
+  },
+  "train_shape": [
+    242,
+    13
+  ],
+  "test_shape": [
+    61,
+    13
+  ],
+  "random_state": 42
+}
